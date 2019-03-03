@@ -27,9 +27,13 @@ with tf.gfile.FastGFile("retrained_graph.pb", 'rb') as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
-with tf.Session() as sess:
+#with tf.Session() as sess:
     # Feed the image_data as input to the graph and get first prediction
-    softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+    #softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+sess = tf.Session()
+softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+sess.close()
+
 
 
 # For a given file, return whether it's an allowed type or not
