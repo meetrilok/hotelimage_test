@@ -27,9 +27,10 @@ with tf.gfile.FastGFile("retrained_graph.pb", 'rb') as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
-with tf.Session() as sess:
+#with tf.Session() as sess:
+sess=tf.Session()
     # Feed the image_data as input to the graph and get first prediction
-    softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
+softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 #sess.close()
 
 
@@ -96,9 +97,9 @@ def uploaded_file(filename):
     start_time = time.time()
     image_data = tf.gfile.FastGFile(image_path, 'rb').read()
     print (image_path)
-    with tf.Session() as sess:
-        predictions = sess.run(softmax_tensor,
-                {'DecodeJpeg/contents:0': image_data})
+    #with tf.Session() as sess:
+    predictions = sess.run(softmax_tensor,
+            {'DecodeJpeg/contents:0': image_data})
     
     top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
     firstElt = top_k[0]
