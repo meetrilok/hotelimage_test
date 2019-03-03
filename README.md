@@ -1,0 +1,1 @@
+hotelimage_test
