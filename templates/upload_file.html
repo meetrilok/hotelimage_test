@@ -11,12 +11,7 @@
 			<div class="card card-2">
 			<p class="finaltext">
 			{% for item in resultlist %}
-				 {{if item.find('uploads/' != -1)}}
-				<img src="{{item}}" height="200" />
-				{% else %}
-				{{ item }}
-				{% endif %} 
-				{{item}}
+        		{{ item }}
         		<br>
     		{% endfor %}
 			</p></div>
@@ -25,7 +20,6 @@
 		</body>
 </html>
 <!-- {{ url_for('static', filename='style.css') }} -->
-
 
 
 
