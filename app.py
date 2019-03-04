@@ -2,6 +2,7 @@ import os
 import tensorflow as tf
 import sys
 import time
+import math
 # We'll render HTML templates and access data sent by POST
 # using the request object from flask. Redirect and url_for
 # will be used to redirect the user once the upload is done
@@ -78,7 +79,6 @@ def uploaded_file(filename):
     strng = " "
     strng = strng + str(time.time() - start_time)+ "|"
     resultlist=["Results are as follows : "]
-    resultlist.append("uploads/"+filename)
     #resultlist.append( str(time.time() - start_time) )
     # label_lines = [line.rstrip() for line 
     #                in tf.gfile.GFile("/home/nishith/tensorflow_image_classifier/Trained Model/retrained_labels.txt")]
@@ -111,7 +111,7 @@ def uploaded_file(filename):
         human_string = label_lines[node_id]
         score = predictions[0][node_id]
         if (score>0.80):
-            str2 = str2 + human_string + " ( "+ str(score*100)+"% )" 
+            str2 = str2 + human_string + " ( "+ str(round(score*100),2)+"% )" 
         #return human_string
         #print (node_id)
         #print('%s (score = %.5f)' % (human_string, score))
@@ -123,7 +123,7 @@ def uploaded_file(filename):
     #strng= strng +" | "+ human_string +"("+ str(score*100)+"%)"
     strng = strng + str2 + "| Time = "+ str(time.time() - start_time) + "sec"
     resultlist.append(str2)
-    resultlist.append("Time = "+ str(time.time() - start_time))
+    resultlist.append("Time = "+ str(round((time.time() - start_time),3))
     #return strng
     #return render_template('upload_file.html', strng=strng)
     return render_template('upload_file.html', resultlist=resultlist)
