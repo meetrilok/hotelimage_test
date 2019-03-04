@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 # These are the extension that we are accepting to be uploaded
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
+file_name=""
 
 label_lines = [line.rstrip() for line 
                in tf.gfile.GFile("retrained_labels.txt")]
@@ -59,26 +59,28 @@ def upload():
         # Move the file form the temporal folder to
         # the upload folder we setup
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file_name=filename
+        print(file_name)
         # Redirect the user to the uploaded_file route, which
         # will basicaly show on the browser the uploaded file
-        return redirect(url_for('uploaded_file',
-                                filename=filename))
+        return redirect(url_for('uploaded_file'))
+                                
 
 # This route is expecting a parameter containing the name
 # of a file. Then it will locate that file on the upload
 # directory and show it on the browser, so if the user uploads
 # an image, that image is going to be show after the upload
-@app.route('/uploads')
-def uploaded_file(filename):
+@app.route('/uploads/details')
+def uploaded_file():
     start_time = 0
     start_time = time.time()
     # change this as you see fit
     #image_path = sys.argv[1]
-    image_path="uploads/"+filename
+    image_path="uploads/"+file_name
     strng = " "
     strng = strng + str(time.time() - start_time)+ "|"
     resultlist=["Results are as follows : "]
-    resultlist.append("http://oyodemo.eastus.cloudapp.azure.com/uploads/"+filename)
+    resultlist.append("http://oyodemo.eastus.cloudapp.azure.com/uploads/"+file_name)
     #resultlist.append( str(time.time() - start_time) )
     # label_lines = [line.rstrip() for line 
     #                in tf.gfile.GFile("/home/nishith/tensorflow_image_classifier/Trained Model/retrained_labels.txt")]
