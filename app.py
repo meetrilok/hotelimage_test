@@ -2,7 +2,6 @@ import os
 import tensorflow as tf
 import sys
 import time
-import math
 # We'll render HTML templates and access data sent by POST
 # using the request object from flask. Redirect and url_for
 # will be used to redirect the user once the upload is done
@@ -22,17 +21,15 @@ app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif
 
 
 label_lines = [line.rstrip() for line 
-               in tf.gfile.GFile("retrained_labels.txt")]
+               in tf.gfile.GFile("/home/nishith/tensorflow_image_classifier/Trained Model/train 2/retrained_labels.txt")]
 # Unpersists graph from file
-with tf.gfile.FastGFile("retrained_graph.pb", 'rb') as f:
+with tf.gfile.FastGFile("/home/nishith/tensorflow_image_classifier/Trained Model/train 2/retrained_graph.pb", 'rb') as f:
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
-#with tf.Session() as sess:
-sess=tf.Session()
+with tf.Session() as sess:
     # Feed the image_data as input to the graph and get first prediction
-softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-#sess.close()
+    softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
 
 
 # For a given file, return whether it's an allowed type or not
@@ -79,7 +76,6 @@ def uploaded_file(filename):
     strng = " "
     strng = strng + str(time.time() - start_time)+ "|"
     resultlist=["Results are as follows : "]
-    #resultlist.append("uploads/"+filename)
     #resultlist.append( str(time.time() - start_time) )
     # label_lines = [line.rstrip() for line 
     #                in tf.gfile.GFile("/home/nishith/tensorflow_image_classifier/Trained Model/retrained_labels.txt")]
@@ -99,12 +95,11 @@ def uploaded_file(filename):
     start_time = time.time()
     image_data = tf.gfile.FastGFile(image_path, 'rb').read()
     print (image_path)
-    #with tf.Session() as sess:
     predictions = sess.run(softmax_tensor,
             {'DecodeJpeg/contents:0': image_data})
     
     top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
-    firstElt = top_k[0]
+    firstElt = top_k[0];
         
     str2=" "
 
@@ -112,7 +107,7 @@ def uploaded_file(filename):
         human_string = label_lines[node_id]
         score = predictions[0][node_id]
         if (score>0.80):
-            str2 = str2 + human_string + " ( "+ str(round((score*100),2))+"% )" 
+            str2 = str2 + human_string + " ( "+ str(score*100)+"% )" 
         #return human_string
         #print (node_id)
         #print('%s (score = %.5f)' % (human_string, score))
@@ -122,7 +117,7 @@ def uploaded_file(filename):
         #return render_template('upload_file.html', strng=strng)
         return render_template('upload_file.html', resultlist=resultlist)
     #strng= strng +" | "+ human_string +"("+ str(score*100)+"%)"
-    strng = strng + str2 + "| Time = "+ str(round((time.time() - start_time)),3) + "sec"
+    strng = strng + str2 + "| Time = "+ str(time.time() - start_time) + "sec"
     resultlist.append(str2)
     resultlist.append("Time = "+ str(time.time() - start_time))
     #return strng
