@@ -113,7 +113,7 @@ def uploaded_file(filename):
     #strng= strng +" | "+ human_string +"("+ str(score*100)+"%)"
     strng = strng + str2 + "| Time = "+ str(round(time.time() - start_time,2)) + "sec"
     resultlist.append(str2)
-    resultlist.append("Time = "+ str(round(time.time() - start_time,2))
+    resultlist.append("Time = "+ str(round(time.time() - start_time,2)))
     #return strng
     #return render_template('upload_file.html', strng=strng)
     return render_template('upload_file.html', resultlist=resultlist)
