@@ -77,7 +77,7 @@ def uploaded_file(filename):
     image_path="uploads/"+filename
     strng = " "
     strng = strng + str(time.time() - start_time)+ "|"
-    resultlist=["Results are as follows : "]
+    resultlist=["Predictions : "]
    
 
     strng = strng + str(time.time() - start_time)+ "|"
