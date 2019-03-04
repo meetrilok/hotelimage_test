@@ -11,6 +11,9 @@
 			<div class="card card-2">
 			<p class="finaltext">
 			{% for item in resultlist %}
+				{{if item.find('http://oyodemo.eastus.cloudapp.azure.com/uploads/' != -1)}}
+				<img src="{{item}}" height="200" />
+				{{else}}
         		{{ item }}
         		<br>
     		{% endfor %}

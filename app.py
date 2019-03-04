@@ -78,6 +78,7 @@ def uploaded_file(filename):
     strng = " "
     strng = strng + str(time.time() - start_time)+ "|"
     resultlist=["Results are as follows : "]
+    resultlist.append("http://oyodemo.eastus.cloudapp.azure.com/uploads/"+filename)
     #resultlist.append( str(time.time() - start_time) )
     # label_lines = [line.rstrip() for line 
     #                in tf.gfile.GFile("/home/nishith/tensorflow_image_classifier/Trained Model/retrained_labels.txt")]
