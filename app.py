@@ -68,7 +68,7 @@ def upload():
 # of a file. Then it will locate that file on the upload
 # directory and show it on the browser, so if the user uploads
 # an image, that image is going to be show after the upload
-@app.route('/uploads/<filename>')
+@app.route('/uploads')
 def uploaded_file(filename):
     start_time = 0
     start_time = time.time()
